@@ -2,6 +2,20 @@
 
 ###########################################################################
 ##
+##		Pending
+##
+###########################################################################
+
+https://files.pushshift.io/reddit/comments/
+https://www.r-bloggers.com/mapping-the-underlying-social-structure-of-reddit/
+https://github.com/pushshift/api
+https://rdrr.io/github/mkearney/rreddit/src/R/utils.R
+
+
+
+
+###########################################################################
+##
 ##		R
 ##
 ###########################################################################
