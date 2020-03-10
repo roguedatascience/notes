@@ -1,0 +1,160 @@
+
+
+###########################################################################
+##
+##		R
+##
+###########################################################################
+
+
+### TryCatch and variants
+# http://adv-r.had.co.nz/Exceptions-Debugging.html
+trycatch(
+	code,
+	error = function(e) NULL,
+	earning = function(w) NULL
+)
+
+### tidyquery
+Running SQL queries directly in R
+https://resources.rstudio.com/rstudio-conf-2020/bridging-the-gap-between-sql-and-r-ian-cook
+
+
+### Common R error
+"Error: std::bad_alloc"
+=> Trying to join 2 big tables that contain NAs
+
+
+### Filtering a list
+%>% .[which(map_dbl(., length) > 3)]
+
+
+### Removing level of hiearchy in list of lists
+unlist(ls, recursive = FALSE)
+
+
+### Filter null elements from list
+ %>% .[!map_lgl(., is.null)]
+
+
+### Remove empty columns/rows
+janitor::remove_empty(which = c('cols', 'rows'))
+
+
+### Normalizing (0, 1)
+scales::scale(to = c(0, 1))
+
+
+### Standardizing (mean = 0, sd = 1)
+psycho::standardize()
+
+
+### Impute
+mice::mice(method = 'mean') %>%
+    mice::complete()
+
+
+### Piping into bind_rows / bind_cols
+
+# Original solution
+iris %>%
+    list( (.) %>% filter(Species == 'setosa'),
+          (.) %>% filter(Species == 'virginica')) %>%
+    .[2:3] %>%
+    bind_rows()
+
+# Better solution - more generalizable
+# https://stackoverflow.com/questions/42385010/using-the-pipe-and-dot-notation
+# Use braces when you don't want the piped object used as the first argument
+#   map(df$data, min) instead of map(df, df$data, min)
+#   the dot it not by itself but nested inside of another function
+iris %>%
+    { bind_cols(
+    	filter(., Species == 'setosa'),
+    	filter(., Species == 'virginica')
+    ) }
+
+
+
+
+
+
+###########################################################################
+##
+##		GIT
+##
+###########################################################################
+
+
+### NBA configuration
+user.name=juan_salazar_f
+user.email=jsalazar@nba.com
+
+https://github.com/roguedatascience/test.git
+
+
+git clone ...
+git remote show origin
+
+# Global setup
+git config --global user.name 'Jane Doe'
+git config --global user.email 'jane@example.com'
+git config --global --list
+
+# Local setup
+# This overrides the global settings in the local directory (.git/config file)
+# Super useful when working with multiple git accounts
+# https://coderwall.com/p/wkqf9q/local-global-git-config
+git config user.name "..."
+git config user.email "..."
+
+# Create new file
+touch test.txt
+
+# Check status to see which files are untracked
+git status
+
+# Add file
+git add test.txt
+
+# Commit file
+git commit -m "Some message here"
+
+# Push changes
+git push
+
+
+### When deleting file
+# Delete file from local repository
+rm <file>
+# Remove file from git (opposite of add)
+gir rm <file>
+# Commit and push
+git commit -m "blah"
+git push
+
+### Making sure credentials are stored (no need to type login 50000 times)
+# https://www.softwaredeveloper.blog/git-credential-storage-libsecret
+git config --global credential.helper store
+# Or: to store your password for ten million seconds or around 16 weeks, enough for a semester.
+git config --global credential.helper 'cache --timeout=10000000'
+
+
+
+
+
+###########################################################################
+##
+##		Bash
+##
+###########################################################################
+
+
+### Remove directory with contents
+rm -rf dirname
+
+### Change user
+# See active user
+whoami
+# Change user
+su - newuser
